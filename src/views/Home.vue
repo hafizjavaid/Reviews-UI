@@ -12,17 +12,18 @@
 import ReviewList from "../components/ReviewList.vue";
 import ReviewsForm from "../components/ReviewsForm.vue";
 import ReviewStats from "../components/ReviewStats.vue";
-import { mapState } from "vuex";
+import { computed } from "vue";
+import { useStore } from "vuex";
 
 export default {
   name: "Home",
   components: { ReviewsForm, ReviewStats, ReviewList },
-  data() {
-    return {};
-  },
-  methods: {},
-  computed: {
-    ...mapState(["editedData"]),
+  setup() {
+    const store = useStore();
+    const editedData = computed(() => store.state.editedData);
+    return {
+      editedData,
+    };
   },
 };
 </script>

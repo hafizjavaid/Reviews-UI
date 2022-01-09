@@ -12,8 +12,7 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
-
+import { useStore } from "vuex";
 export default {
   props: {
     item: {
@@ -21,10 +20,19 @@ export default {
     },
   },
 
-  methods: {
-    ...mapActions(["deleteReview", "editReview"]),
+  setup() {
+    const store = useStore();
+    const deleteReview = (review) => {
+      store.dispatch("deleteReview", review);
+    };
+    const editReview = (review) => {
+      store.dispatch("editReview", review);
+    };
+    return {
+      deleteReview,
+      editReview,
+    };
   },
-  computed: {},
 };
 </script>
 

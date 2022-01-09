@@ -26,7 +26,6 @@ import { mapActions } from "vuex";
 export default {
   components: { Card, RatingSelect },
   name: "ReviewsForm",
-
   data() {
     return {
       text: "",

@@ -11,13 +11,16 @@
 
 <script>
 import ReviewItem from "./ReviewItem.vue";
-import { mapState } from "vuex";
+import { useStore } from "vuex";
+import {computed} from "vue";
 export default {
   components: { ReviewItem },
-
-  methods: {},
-  computed: {
-    ...mapState(["reviews"]),
+  setup() {
+    const store = useStore();
+    const reviews = computed(() => store.state.reviews);
+    return {
+      reviews,
+    };
   },
 };
 </script>

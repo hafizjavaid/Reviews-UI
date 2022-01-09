@@ -6,13 +6,20 @@
 </template>
 
 <script>
-import { mapGetters, mapState } from "vuex";
+import { computed } from "vue";
+import { useStore } from "vuex";
 export default {
   name: "ReviewStats",
 
-  computed: {
-    ...mapGetters(["average"]),
-    ...mapState(["reviews"]),
+  setup() {
+    const store = useStore();
+    const average = computed(() => store.getters["average"]);
+    const reviews = computed(() => store.state.reviews);
+
+    return {
+      average,
+      reviews,
+    };
   },
 };
 </script>
