@@ -7,6 +7,7 @@
         name="rating"
         :value="i"
         :checked="selected === i"
+        v-model="selected"
       />
       <label :for="`num${i}`">
         {{ i }}
@@ -20,12 +21,20 @@ export default {
   name: "RatingSelect",
   data() {
     return {
-      selected: 10,
+      selected: this.rating,
     };
   },
+  props: {
+    rating: {
+      type: Number,
+    },
+  },
   watch: {
-    selected(n) {
-      console.log(n);
+    selected(newVal) {
+      this.$emit("setRating", newVal);
+    },
+    rating(newVal) {
+      this.selected = newVal;
     },
   },
 };

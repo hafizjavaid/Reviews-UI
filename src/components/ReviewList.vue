@@ -5,6 +5,8 @@
       v-for="(item, i) in reviews"
       :key="i"
       :item="item"
+      @deleteReview="deleteReview"
+      @editReview="editReview"
     ></review-item>
   </div>
 </template>
@@ -16,6 +18,14 @@ export default {
   props: {
     reviews: {
       type: Array,
+    },
+  },
+  methods: {
+    editReview(review) {
+      this.$emit("editReview", review);
+    },
+    deleteReview(review) {
+      this.$emit("deleteReview", review);
     },
   },
 };

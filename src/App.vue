@@ -252,38 +252,4 @@ input:focus {
   background-color: rgba(0, 0, 0, 0.4);
   color: #fff;
 }
-
-/* Color Pallete */
-
-.first-color {
-  background: #232931;
-}
-
-.second-color {
-  background: #393e46;
-}
-
-.third-color {
-  background: #4ecca3;
-}
-
-.fourth-color {
-  background: #eeeeee;
-}
-
-.primary-text-color {
-  color: #212121;
-}
-
-.secondary-text-color {
-  color: #757575;
-}
-
-.divider-color {
-  color: #bdbdbd;
-}
-
-.icon-color {
-  color: #000000;
-}
 </style>
