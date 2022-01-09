@@ -6,27 +6,13 @@
 </template>
 
 <script>
+import { mapGetters, mapState } from "vuex";
 export default {
   name: "ReviewStats",
-  data() {
-    return {};
-  },
-  props: {
-    reviews: {
-      type: Array,
-    },
-  },
+
   computed: {
-    average() {
-      let temp =
-        this.reviews.reduce((acc, cur) => {
-          return acc + cur.rating;
-        }, 0) / this.reviews.length;
-
-      temp = temp.toFixed(1).replace(/[.,]0$/, "");
-
-      return temp;
-    },
+    ...mapGetters(["average"]),
+    ...mapState(["reviews"]),
   },
 };
 </script>

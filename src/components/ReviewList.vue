@@ -5,28 +5,19 @@
       v-for="(item, i) in reviews"
       :key="i"
       :item="item"
-      @deleteReview="deleteReview"
-      @editReview="editReview"
     ></review-item>
   </div>
 </template>
 
 <script>
 import ReviewItem from "./ReviewItem.vue";
+import { mapState } from "vuex";
 export default {
   components: { ReviewItem },
-  props: {
-    reviews: {
-      type: Array,
-    },
-  },
-  methods: {
-    editReview(review) {
-      this.$emit("editReview", review);
-    },
-    deleteReview(review) {
-      this.$emit("deleteReview", review);
-    },
+
+  methods: {},
+  computed: {
+    ...mapState(["reviews"]),
   },
 };
 </script>

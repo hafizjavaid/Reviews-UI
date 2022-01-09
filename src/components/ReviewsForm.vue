@@ -21,6 +21,8 @@
 import RatingSelect from "./RatingSelect.vue";
 import Card from "./shared/Card.vue";
 import { v4 as uuid4 } from "uuid";
+import { mapActions } from "vuex";
+
 export default {
   components: { Card, RatingSelect },
   name: "ReviewsForm",
@@ -31,14 +33,9 @@ export default {
       btnDisabled: true,
       message: "",
       rating: 10,
-      formEdit: false,
     };
   },
-  props: {
-    editedData: {
-      type: Object,
-    },
-  },
+
   watch: {
     text(newVal) {
       if (newVal.length <= 10) {
@@ -50,12 +47,14 @@ export default {
     },
     editedData(newData) {
       if (newData.editable) {
-        this.formEdit = true;
         this.text = newData.item.text;
         this.rating = newData.item.rating;
-      } else {
-        this.formEdit = false;
       }
+    },
+  },
+  props: {
+    editedData: {
+      type: Object,
     },
   },
 
@@ -67,14 +66,11 @@ export default {
           rating: this.rating,
           id: uuid4(),
         };
-
-        if (!this.formEdit) this.$emit("addReview", newReview);
-
-        this.$emit("updateReview", {
+        if (!this.editedData.editable) this.addReview(newReview);
+        this.updateReview({
           ...newReview,
           id: this.editedData.item.id,
         });
-
         this.text = "";
         this.rating = 10;
       }
@@ -82,6 +78,10 @@ export default {
     setRating(rating) {
       this.rating = rating;
     },
+    ...mapActions({
+      addReview: "addReview",
+      updateReview: "updateReview",
+    }),
   },
 };
 </script>

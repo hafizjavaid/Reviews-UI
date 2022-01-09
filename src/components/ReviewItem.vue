@@ -12,20 +12,19 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
+
 export default {
   props: {
     item: {
       type: Object,
     },
   },
+
   methods: {
-    editReview(review) {
-      this.$emit("editReview", review);
-    },
-    deleteReview(review) {
-      this.$emit("deleteReview", review);
-    },
+    ...mapActions(["deleteReview", "editReview"]),
   },
+  computed: {},
 };
 </script>
 
