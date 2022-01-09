@@ -21,6 +21,7 @@ export default {
   setup() {
     const store = useStore();
     const editedData = computed(() => store.state.editedData);
+    store.dispatch("fetchReviews");
     return {
       editedData,
     };

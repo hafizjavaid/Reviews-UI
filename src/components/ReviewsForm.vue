@@ -20,7 +20,7 @@
 <script>
 import RatingSelect from "./RatingSelect.vue";
 import Card from "./shared/Card.vue";
-import { v4 as uuid4 } from "uuid";
+// import { v4 as uuid4 } from "uuid";
 import { mapActions } from "vuex";
 
 export default {
@@ -63,13 +63,15 @@ export default {
         const newReview = {
           text: this.text,
           rating: this.rating,
-          id: uuid4(),
         };
-        if (!this.editedData.editable) this.addReview(newReview);
-        this.updateReview({
-          ...newReview,
-          id: this.editedData.item.id,
-        });
+        if (!this.editedData.editable) {
+          this.addReview(newReview);
+        } else {
+          this.updateReview({
+            ...newReview,
+            id: this.editedData.item.id,
+          });
+        }
         this.text = "";
         this.rating = 10;
       }

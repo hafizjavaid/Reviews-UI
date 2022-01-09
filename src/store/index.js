@@ -2,18 +2,7 @@ import { createStore } from "vuex";
 
 export default createStore({
   state: {
-    reviews: [
-      {
-        id: 1,
-        rating: 10,
-        text: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
-      },
-      {
-        id: 2,
-        rating: 9,
-        text: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
-      },
-    ],
+    reviews: [],
     editedData: {
       editable: false,
       item: {},
@@ -31,12 +20,26 @@ export default createStore({
     },
   },
   actions: {
-    deleteReview({ state, commit }, review) {
+    async deleteReview({ state, commit, dispatch }, review) {
+      await fetch(`http://localhost:5000/reviews/${review.id}`, {
+        method: "DELETE",
+      });
       let reviews = state.reviews.filter((rev) => rev.id !== review.id);
       commit("SET_REVIEWS", reviews);
+      dispatch("fetchReviews");
     },
-    addReview({ commit }, review) {
-      commit("ADD_REVIEW", review);
+    async addReview({ commit, dispatch }, review) {
+      const response = await fetch(`http://localhost:5000/reviews/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(review),
+      });
+
+      const newReview = await response.json();
+      commit("ADD_REVIEW", newReview);
+      dispatch("fetchReviews");
     },
     editReview({ commit }, review) {
       let editedData = {
@@ -45,16 +48,40 @@ export default createStore({
       };
       commit("SET_EDIT_DATA", editedData);
     },
-    updateReview({ state, commit }, review) {
+    async updateReview({ state, commit, dispatch }, review) {
+      const response = await fetch(
+        `http://localhost:5000/reviews/${review.id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(review),
+        }
+      );
+
+      const updatedReview = await response.json();
       let reviews = state.reviews.map((item) =>
-        item.id === review.id ? { ...item, ...review } : item
+        item.id === review.id ? { ...item, ...updatedReview } : item
       );
       commit("SET_REVIEWS", reviews);
+      dispatch("fetchReviews");
       let editedData = {
         editable: false,
         item: {},
       };
       commit("SET_EDIT_DATA", editedData);
+    },
+    async fetchReviews({ commit }) {
+      try {
+        const reviews = await fetch(
+          `http://localhost:5000/reviews?_sort=id&_order=desc`
+        );
+        const data = await reviews.json();
+        commit("SET_REVIEWS", data);
+      } catch (e) {
+        console.log(e);
+      }
     },
   },
   modules: {},
